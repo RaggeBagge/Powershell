@@ -2,10 +2,10 @@
 # Author: Rasmus Johansson
 # Level: Novice
 # 
-#
-#
-#
-#
+#blahblah
+#blahblahblahblah
+#blah
+# blahblahblahblahblahblah
 
 # The TV-Shows it's monitoring
 [array]$Script:seriesNeeded = "*Arrow*","The*Flash","*Marvels*Agent*of*S*H*I*E*L*D","The*Big*Bang*Theory*","*NCIS*Los*Angeles*","Game*Of*Thrones","*Dark*Matter*","*Running*Wild**With*Bear*Grylls*"
