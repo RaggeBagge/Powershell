@@ -32,10 +32,9 @@ $csv = Import-Csv "D:\Git\Powershell\rajo-metadata.csv"
                     $uri = "https://thepiratebay.org/search/$serie$season$episode/0/7" # URL to the source of download
                     $HTML = Invoke-WebRequest -Uri $uri
                        
-
                         if($HTML.StatusCode -eq 200){
                             foreach ($names in $csv.Name){       
-                                [array]$name = $HTML.Links | ?{$_.innerHTML -match $names} | ?{$_.innerHTML -match "ettv"}
+                                [array]$name = $HTML.Links | ?{$_.innerHTML -match "$names"} | ?{$_.innerHTML -match "ettv"}
                                 #[array]$magnet = $HTML.Links | ?{$_.href -like "magnet*$names*"}
                                     if($name -eq $null -and $episode -eq "E01"){
                                         echo "breaking"
