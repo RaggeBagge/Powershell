@@ -7,10 +7,6 @@
 #
 #
 
-# The TV-Shows it's monitoring
-#[array]$Script:seriesNeeded = "Arrow","The%20Flash","Marvels%20Agent%20of%20S.H.I.E.L.D","The%20Big%20Bang%20Theory%20","NCIS%20Los%20Angeles%20","Game%20Of%20Thrones","Dark%20Matter"
-#[array]$Script:seriesNeededNames = "*Arrow*","*The*Flash*","*Marvels*Agent*of*S*H*I*E*L*D*","*The*Big*Bang*Theory*","*NCIS*Los*Angeles*","*Game*Of*Thrones*","*Dark*Matter*"
-
 function GetSeriesOnWebsite {
 # Hämtar hem alla serier som matchar $seriesNeeded
 # Namnen läggs i $seriesWebsite medan magneterna läggs i $seriesMagnets som är globala variabler
@@ -58,9 +54,78 @@ $csv = Import-Csv "D:\Git\Powershell\rajo-metadata.csv"
     
 }         
 
+function MatchSeriesToDownload {
+    
+    [int]$num1 = 0
+    [int]$num2 = 1
+    $childItem = $null
+    $ChilditemEdisode = $null
+    $episode = $null
+    $seriesPath = "D:\Series"
+    $csv = $null # Making sure that the variable is fresh when the script is run
+    $csv = Import-Csv "D:\Git\Powershell\rajo-metadata.csv"
+    $SeasonCSV = Import-Csv "D:\Git\Powershell\rajo-season.csv"
+    $EpisodeCSV = Import-Csv "D:\Git\Powershell\rajo-episode.csv"
+
+        [array]$location = (Get-ChildItem -Path $seriesPath -Recurse | ?{$_.PSIsContainer})
+
+        foreach($serie in $csv.FolderName){
+            foreach($season in $SeasonCSV.Season){
+            #$season
+                foreach($episode in $EpisodeCSV.Episode){
+                #$episode
+                    foreach($loc in $location.name){
+                        if($loc -match "$episode"){
+                            #echo "hellooo"
+                                #Add-Content -Path "D:\text.txt" -Value $loc
+                            }else{
+                            #echo "damn it"
+                            }
+                              
+                    }
+                }
+            }
+        }
+
+
+
+<#
+        foreach($serie in $csv.FolderName) {
+           #$childitem = $null
+           $childItem = (Get-ChildItem -Path "$seriesPath\$serie")
+           #$childItem
+           #echo "hey"
+                foreach($season in $childItem.name){
+                    $ChilditemEpisode = Get-ChildItem -LiteralPath "$seriesPath\$serie\$season" 
+                    #$ChilditemEpisode
+                    [int]$num1 = 0
+                    [int]$num2 = 1
+                        foreach($episodeName in $ChilditemEpisode){
+                            $episode = $episodeName | ?{$_ -match "[E][$num1][$num2]"}
+                            $episode.name
+                            $num2++
+                            #echo "helloooooo"
+                                if($num2 -eq 10){
+                                    $num2 = 0
+                                    $num1++
+                                }
+                            
+                                
+
+                        }
+                }
+           
+        }
+#>
+
+}
+
+
 function MatchSeriesOnDiskWithWebsite { 
 # Matchar serier som finns lokalt på disken med vad som finns att laddas hem 
 # från hemsidan och skapar upp ett dokument med serierna som inte ska laddas hem
+
+    
 
     $contentLoc = "D:\Downloads\ScriptDoc\SkipDownload.txt"
     [array]$Script:Matched = $null
